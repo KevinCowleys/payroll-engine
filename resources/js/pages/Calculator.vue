@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { payrollApi } from '@/lib/payroll-api';
+import PayrollCalculationController from '@/actions/App/Http/Controllers/PayrollCalculationController';
+import PayrollLocationsController from '@/actions/App/Http/Controllers/PayrollLocationsController';
 import type {
     PayrollCalculationResult,
     PayrollCountry,
@@ -47,7 +48,7 @@ function formatCurrency(amount: number): string {
 }
 
 function loadLocations(): void {
-    locationsHttp.get(payrollApi.locations, {
+    locationsHttp.get(PayrollLocationsController.url(), {
         onSuccess: (response) => {
             const data = response as PayrollLocationsResponse;
             locations.value = data.countries;
@@ -66,7 +67,7 @@ function calculate(): void {
     result.value = null;
     notFoundMessage.value = null;
 
-    form.post(payrollApi.calculate, {
+    form.post(PayrollCalculationController.url(), {
         onSuccess: (response) => {
             result.value = response as PayrollCalculationResult;
         },
