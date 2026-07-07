@@ -11,23 +11,14 @@ use App\Domain\Payroll\Repositories\PayrollRuleRepositoryInterface;
 
 final readonly class PayrollCalculationService
 {
-    /**
-     * @param PayrollRuleRepositoryInterface $repository
-     * @param CalculatorResolver $resolver
-     */
     public function __construct(
         private PayrollRuleRepositoryInterface $repository,
         private CalculatorResolver $resolver,
-    ) {
-    }
+    ) {}
 
     /**
      * Used to calculate the payroll based
      * on the incoming request.
-     *
-     * @param PayrollCalculationRequest $request
-     *
-     * @return PayrollCalculationResponse
      */
     public function calculate(PayrollCalculationRequest $request): PayrollCalculationResponse
     {

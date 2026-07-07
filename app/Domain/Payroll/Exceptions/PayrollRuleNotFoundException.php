@@ -9,20 +9,11 @@ use RuntimeException;
 
 final class PayrollRuleNotFoundException extends RuntimeException
 {
-    /**
-     * @return int
-     */
     public function statusCode(): int
     {
         return Response::HTTP_NOT_FOUND;
     }
 
-    /**
-     * @param string $country
-     * @param ?string $region
-     *
-     * @return self
-     */
     public static function forLocation(
         string $country,
         ?string $region,

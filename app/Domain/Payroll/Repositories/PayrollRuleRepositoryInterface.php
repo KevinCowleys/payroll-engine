@@ -9,9 +9,6 @@ use App\Domain\Payroll\Models\PayrollRule;
 
 interface PayrollRuleRepositoryInterface
 {
-    /**
-     * @return ?PayrollRule
-     */
     public function findApplicableRule(
         string $country,
         ?string $region,

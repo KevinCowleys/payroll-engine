@@ -7,7 +7,7 @@ use App\Domain\Payroll\Enums\RuleType;
 use Tests\Fixtures\PayrollFixture;
 
 it('calculates pay with no overtime', function (): void {
-    $calculator = new DailyOvertimeCalculator();
+    $calculator = new DailyOvertimeCalculator;
 
     $response = $calculator->calculate(
         PayrollFixture::request(
@@ -26,7 +26,7 @@ it('calculates pay with no overtime', function (): void {
 });
 
 it('calculates daily overtime', function (): void {
-    $calculator = new DailyOvertimeCalculator();
+    $calculator = new DailyOvertimeCalculator;
 
     $response = $calculator->calculate(
         PayrollFixture::request(
@@ -45,7 +45,7 @@ it('calculates daily overtime', function (): void {
 });
 
 it('calculates exactly at the overtime threshold', function (): void {
-    $calculator = new DailyOvertimeCalculator();
+    $calculator = new DailyOvertimeCalculator;
 
     $response = $calculator->calculate(
         PayrollFixture::request(
@@ -64,7 +64,7 @@ it('calculates exactly at the overtime threshold', function (): void {
 });
 
 it('calculates zero hours correctly', function (): void {
-    $calculator = new DailyOvertimeCalculator();
+    $calculator = new DailyOvertimeCalculator;
 
     $response = $calculator->calculate(
         PayrollFixture::request(
@@ -80,7 +80,7 @@ it('calculates zero hours correctly', function (): void {
 });
 
 it('includes the applied rule in the response', function (): void {
-    $calculator = new DailyOvertimeCalculator();
+    $calculator = new DailyOvertimeCalculator;
 
     $response = $calculator->calculate(
         PayrollFixture::request(
@@ -98,7 +98,7 @@ it('includes the applied rule in the response', function (): void {
 });
 
 it('rounds overtime pay to the nearest cent', function (): void {
-    $calculator = new DailyOvertimeCalculator();
+    $calculator = new DailyOvertimeCalculator;
 
     $response = $calculator->calculate(
         PayrollFixture::request(

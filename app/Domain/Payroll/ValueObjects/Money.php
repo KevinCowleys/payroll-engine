@@ -12,13 +12,12 @@ final readonly class Money
     public function __construct(
         private int $amount,
         private Currency $currency,
-    ) {
-    }
+    ) {}
 
     public static function fromDecimal(float $amount, Currency $currency): self
     {
         return new self(
-            amount: (int)round($amount * 100),
+            amount: (int) round($amount * 100),
             currency: $currency,
         );
     }
@@ -36,7 +35,7 @@ final readonly class Money
     public function multiply(float $multiplier): self
     {
         return new self(
-            amount: (int)round($this->amount * $multiplier),
+            amount: (int) round($this->amount * $multiplier),
             currency: $this->currency,
         );
     }

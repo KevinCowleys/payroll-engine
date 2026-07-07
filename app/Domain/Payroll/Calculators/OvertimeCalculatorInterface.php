@@ -10,12 +10,6 @@ use App\Domain\Payroll\Models\PayrollRule;
 
 interface OvertimeCalculatorInterface
 {
-    /**
-     * @param PayrollCalculationRequest $request
-     * @param PayrollRule $rule
-     *
-     * @return PayrollCalculationResponse
-     */
     public function calculate(
         PayrollCalculationRequest $request,
         PayrollRule $rule,

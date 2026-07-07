@@ -15,16 +15,11 @@ final readonly class CalculatorResolver
     public function __construct(
         private WeeklyOvertimeCalculator $weekly,
         private DailyOvertimeCalculator $daily,
-    ) {
-    }
+    ) {}
 
     /**
      * Used to resolve the incoming request to the
      * appropriate calculator based on the RuleType.
-     *
-     * @param RuleType $type
-     *
-     * @return OvertimeCalculatorInterface
      */
     public function resolve(RuleType $type): OvertimeCalculatorInterface
     {

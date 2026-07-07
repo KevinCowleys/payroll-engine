@@ -14,6 +14,5 @@ final readonly class PayrollCalculationRequest
         public RuleType $ruleType,
         public float $hoursWorked,
         public float $hourlyRate,
-    ) {
-    }
+    ) {}
 }

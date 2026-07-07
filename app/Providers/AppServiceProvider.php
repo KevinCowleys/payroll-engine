@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Domain\Payroll\Repositories\PayrollRuleRepositoryInterface;
 use App\Domain\Payroll\Repositories\EloquentPayrollRuleRepository;
+use App\Domain\Payroll\Repositories\PayrollRuleRepositoryInterface;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;

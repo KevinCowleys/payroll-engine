@@ -9,12 +9,6 @@ use App\Domain\Payroll\Models\PayrollRule;
 
 final class EloquentPayrollRuleRepository implements PayrollRuleRepositoryInterface
 {
-    /**
-     * @param string $country
-     * @param ?string $region
-     *
-     * @return ?PayrollRule
-     */
     public function findApplicableRule(
         string $country,
         ?string $region,

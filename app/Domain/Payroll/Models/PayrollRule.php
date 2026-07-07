@@ -9,6 +9,7 @@ use App\Domain\Payroll\Enums\RuleType;
 use Database\Factories\PayrollRuleFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -20,8 +21,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $overtime_multiplier
  * @property Currency $currency
  * @property int $priority
- * @property \Illuminate\Support\Carbon $effective_from
- * @property ?\Illuminate\Support\Carbon $effective_to
+ * @property Carbon $effective_from
+ * @property ?Carbon $effective_to
  */
 class PayrollRule extends Model
 {
@@ -44,9 +45,6 @@ class PayrollRule extends Model
         'effective_to',
     ];
 
-    /**
-     * @return array
-     */
     protected function casts(): array
     {
         return [
@@ -63,9 +61,6 @@ class PayrollRule extends Model
         ];
     }
 
-    /**
-     * @return PayrollRuleFactory
-     */
     protected static function newFactory(): PayrollRuleFactory
     {
         return PayrollRuleFactory::new();

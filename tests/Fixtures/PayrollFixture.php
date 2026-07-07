@@ -12,13 +12,11 @@ use App\Domain\Payroll\Models\PayrollRule;
 final class PayrollFixture
 {
     /**
-     * @param float $hoursWorked = 8
-     * @param float $hourlyRate = 20
-     * @param string $country = 'US'
-     * @param ?string $region = 'CA'
-     * @param RuleType $ruleType = RuleType::Daily
-     *
-     * @return PayrollCalculationRequest
+     * @param  float  $hoursWorked  = 8
+     * @param  float  $hourlyRate  = 20
+     * @param  string  $country  = 'US'
+     * @param  ?string  $region  = 'CA'
+     * @param  RuleType  $ruleType  = RuleType::Daily
      */
     public static function request(
         float $hoursWorked = 8,
@@ -36,17 +34,6 @@ final class PayrollFixture
         );
     }
 
-    /**
-     * @param RuleType $ruleType
-     * @param string $name
-     * @param int $threshold
-     * @param float $overtimeMultiplier
-     * @param Currency $currency
-     * @param string $country
-     * @param ?string $region
-     *
-     * @return PayrollRule
-     */
     public static function rule(
         RuleType $ruleType,
         string $name,
@@ -57,25 +44,23 @@ final class PayrollFixture
         ?string $region,
     ): PayrollRule {
         return new PayrollRule([
-                'rule_type' => $ruleType,
-                'name' => $name,
-                'threshold' => $threshold,
-                'overtime_multiplier' => $overtimeMultiplier,
-                'currency' => $currency,
-                'country' => $country,
-                'region' => $region,
-            ]);
+            'rule_type' => $ruleType,
+            'name' => $name,
+            'threshold' => $threshold,
+            'overtime_multiplier' => $overtimeMultiplier,
+            'currency' => $currency,
+            'country' => $country,
+            'region' => $region,
+        ]);
     }
 
     /**
-     * @param string $name = 'California Daily Overtime'
-     * @param int $threshold = 8
-     * @param float $overtimeMultiplier = 1.5
-     * @param Currency $currency = Currency::USD
-     * @param string $country = 'US'
-     * @param ?string $region = 'CA'
-     *
-     * @return PayrollRule
+     * @param  string  $name  = 'California Daily Overtime'
+     * @param  int  $threshold  = 8
+     * @param  float  $overtimeMultiplier  = 1.5
+     * @param  Currency  $currency  = Currency::USD
+     * @param  string  $country  = 'US'
+     * @param  ?string  $region  = 'CA'
      */
     public static function dailyRule(
         string $name = 'California Daily Overtime',
@@ -97,14 +82,12 @@ final class PayrollFixture
     }
 
     /**
-     * @param string $name = 'US Weekly Overtime'
-     * @param int $threshold = 40
-     * @param float $overtimeMultiplier = 1.5
-     * @param Currency $currency = Currency::USD
-     * @param string $country = 'US'
-     * @param ?string $region = null
-     *
-     * @return PayrollRule
+     * @param  string  $name  = 'US Weekly Overtime'
+     * @param  int  $threshold  = 40
+     * @param  float  $overtimeMultiplier  = 1.5
+     * @param  Currency  $currency  = Currency::USD
+     * @param  string  $country  = 'US'
+     * @param  ?string  $region  = null
      */
     public static function weeklyRule(
         string $name = 'US Weekly Overtime',

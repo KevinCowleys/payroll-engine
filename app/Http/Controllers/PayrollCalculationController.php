@@ -11,19 +11,10 @@ use Illuminate\Http\JsonResponse;
 
 final class PayrollCalculationController extends Controller
 {
-    /**
-     * @param PayrollCalculationService $service
-     */
     public function __construct(
         private PayrollCalculationService $service,
-    ) {
-    }
+    ) {}
 
-    /**
-     * @param CalculatePayrollRequest $request
-     *
-     * @return JsonResponse
-     */
     public function __invoke(CalculatePayrollRequest $request): JsonResponse
     {
         $calculation = $this->service->calculate(

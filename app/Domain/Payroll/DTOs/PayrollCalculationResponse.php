@@ -15,8 +15,7 @@ final readonly class PayrollCalculationResponse
         public Money $overtimePay,
         public Money $grossPay,
         public AppliedRule $appliedRule,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<string, mixed>

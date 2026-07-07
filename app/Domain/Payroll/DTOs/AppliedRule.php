@@ -13,8 +13,7 @@ final readonly class AppliedRule
         public string $name,
         public RuleType $type,
         public int $threshold,
-    ) {
-    }
+    ) {}
 
     public static function fromModel(PayrollRule $rule): self
     {

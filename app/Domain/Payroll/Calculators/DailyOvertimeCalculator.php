@@ -12,12 +12,6 @@ use App\Domain\Payroll\ValueObjects\Money;
 
 final readonly class DailyOvertimeCalculator implements OvertimeCalculatorInterface
 {
-    /**
-     * @param PayrollCalculationRequest $request
-     * @param PayrollRule $rule
-     *
-     * @return PayrollCalculationResponse
-     */
     public function calculate(
         PayrollCalculationRequest $request,
         PayrollRule $rule,
