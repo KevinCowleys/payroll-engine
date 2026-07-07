@@ -58,10 +58,10 @@ final readonly class Money
 
     private function assertSameCurrency(self $money): void
     {
-        if ($this->currency !== $money->currency) {
+        if ($this->currency !== $money->currency()) {
             throw CurrencyMismatchException::forCurrencies(
                 $this->currency,
-                $this->currency(),
+                $money->currency(),
             );
         }
     }

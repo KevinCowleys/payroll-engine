@@ -89,15 +89,15 @@ it('validates the rule type', function (): void {
 
 it('returns not found when no payroll rule exists', function (): void {
     $response = $this->postJson('/api/payroll/calculate', [
-        'country' => 'FR',
+        'country' => 'DK',
         'region' => null,
-        'rule_type' => 'weekly',
+        'rule_type' => 'daily',
         'hours_worked' => 40,
         'hourly_rate' => 20,
     ]);
 
     $response->assertNotFound()
         ->assertExactJson([
-            'message' => 'No payroll rule found for FR.',
+            'message' => 'No payroll rule found for DK.',
         ]);
 });

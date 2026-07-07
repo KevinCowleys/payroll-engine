@@ -34,6 +34,10 @@ final class EloquentPayrollRuleRepository implements PayrollRuleRepositoryInterf
                     ->whereNull('effective_to')
                     ->orWhereDate('effective_to', '>=', today());
             })
+            ->when(
+                $region !== null && $region !== '',
+                fn ($q) => $q->orderByRaw('CASE WHEN region = ? THEN 0 ELSE 1 END', [$region]),
+            )
             ->orderBy('priority')
             ->first();
     }
