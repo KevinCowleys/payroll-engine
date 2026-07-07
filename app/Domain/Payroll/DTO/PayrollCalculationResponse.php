@@ -8,9 +8,6 @@ use App\Domain\Payroll\ValueObjects\Money;
 
 final readonly class PayrollCalculationResponse
 {
-    /**
-     * @param list<AppliedRule> $appliedRules
-     */
     public function __construct(
         public float $regularHours,
         public float $overtimeHours,
@@ -19,7 +16,7 @@ final readonly class PayrollCalculationResponse
         public Money $overtimePay,
         public Money $doubleTimePay,
         public Money $grossPay,
-        public array $appliedRules,
+        public AppliedRule $appliedRule,
     ) {
     }
 }

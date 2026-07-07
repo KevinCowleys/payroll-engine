@@ -9,6 +9,12 @@ use DomainException;
 
 final class CurrencyMismatchException extends DomainException
 {
+    /**
+     * @param Currency $expected
+     * @param Currency $actual
+     *
+     * @return self
+     */
     public static function forCurrencies(
         Currency $expected,
         Currency $actual,

@@ -4,20 +4,25 @@ declare(strict_types=1);
 
 namespace App\Domain\Payroll\Repositories;
 
+use App\Domain\Payroll\Enums\RuleType;
 use App\Domain\Payroll\Models\PayrollRule;
-use Illuminate\Database\Eloquent\Collection;
 
 final class EloquentPayrollRuleRepository implements PayrollRuleRepositoryInterface
 {
     /**
-     * @return Collection<int, PayrollRule>
+     * @param string $country
+     * @param ?string $region
+     *
+     * @return ?PayrollRule
      */
-    public function findApplicableRules(
+    public function findApplicableRule(
         string $country,
         ?string $region,
-    ): Collection {
+        RuleType $ruleType,
+    ): ?PayrollRule {
         return PayrollRule::query()
             ->where('country', $country)
+            ->where('rule_type', $ruleType)
             ->where(function ($query) use ($region): void {
                 $query
                     ->whereNull('region')
@@ -30,6 +35,6 @@ final class EloquentPayrollRuleRepository implements PayrollRuleRepositoryInterf
                     ->orWhereDate('effective_to', '>=', today());
             })
             ->orderBy('priority')
-            ->get();
+            ->first();
     }
 }

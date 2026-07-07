@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace App\Domain\Payroll\Repositories;
 
+use App\Domain\Payroll\Enums\RuleType;
 use App\Domain\Payroll\Models\PayrollRule;
-use Illuminate\Support\Collection;
 
 interface PayrollRuleRepositoryInterface
 {
     /**
-     * @return Collection<int, PayrollRule>
+     * @return ?PayrollRule
      */
-    public function findApplicableRules(
+    public function findApplicableRule(
         string $country,
         ?string $region,
-    ): Collection;
+        RuleType $ruleType,
+    ): ?PayrollRule;
 }

@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-it('returns country wide rules', function (): void {
+it('returns the matching weekly rule', function (): void {
     $repository = app(EloquentPayrollRuleRepository::class);
 
     PayrollRule::factory()
@@ -17,21 +17,18 @@ it('returns country wide rules', function (): void {
         ->forCountry('US')
         ->create();
 
-    $rules = $repository->findApplicableRules('US', null);
+    $rule = $repository->findApplicableRule(
+        'US',
+        null,
+        RuleType::Weekly,
+    );
 
-    expect($rules)->toHaveCount(1);
-    expect($rules->first()->country)->toBe('US');
-    expect($rules->first()->region)->toBeNull();
-    expect($rules->first()->rule_type)->toBe(RuleType::Weekly);
+    expect($rule)->not->toBeNull();
+    expect($rule->rule_type)->toBe(RuleType::Weekly);
 });
 
-it('returns both country and region specific rules', function (): void {
+it('returns the matching daily rule', function (): void {
     $repository = app(EloquentPayrollRuleRepository::class);
-
-    PayrollRule::factory()
-        ->weekly()
-        ->forCountry('US')
-        ->create();
 
     PayrollRule::factory()
         ->daily()
@@ -39,44 +36,17 @@ it('returns both country and region specific rules', function (): void {
         ->forRegion('CA')
         ->create();
 
-    $rules = $repository->findApplicableRules('US', 'CA');
+    $rule = $repository->findApplicableRule(
+        'US',
+        'CA',
+        RuleType::Daily,
+    );
 
-    expect($rules)->toHaveCount(2);
-    expect($rules->pluck('region')->all())
-        ->toContain(null, 'CA');
-    expect($rules->pluck('rule_type')->all())
-        ->toContain(RuleType::Weekly, RuleType::Daily);
+    expect($rule)->not->toBeNull();
+    expect($rule->rule_type)->toBe(RuleType::Daily);
 });
 
-it('does not return region specific rules for another region', function (): void {
-    $repository = app(EloquentPayrollRuleRepository::class);
-
-    PayrollRule::factory()
-        ->weekly()
-        ->forCountry('US')
-        ->create();
-
-    PayrollRule::factory()
-        ->daily()
-        ->forCountry('US')
-        ->forRegion('CA')
-        ->create();
-
-    PayrollRule::factory()
-        ->daily()
-        ->forCountry('US')
-        ->forRegion('TX')
-        ->create();
-
-    $rules = $repository->findApplicableRules('US', 'CA');
-
-    expect($rules)->toHaveCount(2);
-    expect($rules->pluck('region')->all())
-        ->toContain(null, 'CA')
-        ->not->toContain('TX');
-});
-
-it('returns applicable rules ordered by priority', function (): void {
+it('prefers the region specific rule', function (): void {
     $repository = app(EloquentPayrollRuleRepository::class);
 
     PayrollRule::factory()
@@ -87,93 +57,51 @@ it('returns applicable rules ordered by priority', function (): void {
         ]);
 
     PayrollRule::factory()
-        ->daily()
+        ->weekly()
         ->forCountry('US')
         ->forRegion('CA')
         ->create([
             'priority' => 50,
         ]);
 
-    PayrollRule::factory()
-        ->doubleTime()
-        ->forCountry('US')
-        ->forRegion('CA')
-        ->create([
-            'priority' => 25,
-        ]);
+    $rule = $repository->findApplicableRule(
+        'US',
+        'CA',
+        RuleType::Weekly,
+    );
 
-    $rules = $repository->findApplicableRules('US', 'CA');
-
-    expect(
-        $rules->map(fn (PayrollRule $rule): array => [
-                $rule->region,
-                $rule->priority,
-            ])
-            ->values()
-            ->all()
-    )->toBe([
-        ['CA', 25],
-        ['CA', 50],
-        [null, 100],
-    ]);
+    expect($rule)->not->toBeNull();
+    expect($rule->region)->toBe('CA');
+    expect($rule->priority)->toBe(50);
 });
 
-it('returns only currently effective rules', function (): void {
+it('returns null when no matching rule exists', function (): void {
     $repository = app(EloquentPayrollRuleRepository::class);
 
-    PayrollRule::factory()
-        ->weekly()
-        ->forCountry('US')
-        ->create([
-            'effective_from' => now()->subMonth(),
-            'effective_to' => null,
-        ]);
+    $rule = $repository->findApplicableRule(
+        'DE',
+        null,
+        RuleType::Weekly,
+    );
+
+    expect($rule)->toBeNull();
+});
+
+it('ignores rules that are not currently effective', function (): void {
+    $repository = app(EloquentPayrollRuleRepository::class);
 
     PayrollRule::factory()
         ->weekly()
         ->forCountry('US')
         ->create([
             'effective_from' => now()->addDay(),
-            'effective_to' => null,
         ]);
 
-    PayrollRule::factory()
-        ->weekly()
-        ->forCountry('US')
-        ->create([
-            'effective_from' => now()->subMonth(),
-            'effective_to' => now()->subDay(),
-        ]);
+    $rule = $repository->findApplicableRule(
+        'US',
+        null,
+        RuleType::Weekly,
+    );
 
-    $rules = $repository->findApplicableRules('US', null);
-
-    expect($rules)->toHaveCount(1);
-    expect($rules->first()->effective_to)->toBeNull();
-});
-
-it('does not return rules from another country', function (): void {
-    $repository = app(EloquentPayrollRuleRepository::class);
-
-    PayrollRule::factory()
-        ->weekly()
-        ->forCountry('US')
-        ->create();
-
-    PayrollRule::factory()
-        ->weekly()
-        ->forCountry('DK')
-        ->create();
-
-    $rules = $repository->findApplicableRules('US', null);
-
-    expect($rules)->toHaveCount(1);
-    expect($rules->first()->country)->toBe('US');
-});
-
-it('returns an empty collection when no rules exist', function (): void {
-    $repository = app(EloquentPayrollRuleRepository::class);
-
-    $rules = $repository->findApplicableRules('DE', null);
-
-    expect($rules)->toBeEmpty();
+    expect($rule)->toBeNull();
 });
