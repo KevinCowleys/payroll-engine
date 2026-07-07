@@ -20,10 +20,8 @@ it('calculates pay with no overtime', function (): void {
 
     expect($response->regularHours)->toBe(8.0);
     expect($response->overtimeHours)->toBe(0.0);
-    expect($response->doubleTimeHours)->toBe(0.0);
     expect($response->regularPay->toDecimal())->toBe(160.00);
     expect($response->overtimePay->toDecimal())->toBe(0.00);
-    expect($response->doubleTimePay->toDecimal())->toBe(0.00);
     expect($response->grossPay->toDecimal())->toBe(160.00);
 });
 

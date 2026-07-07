@@ -44,21 +44,13 @@ final readonly class WeeklyOvertimeCalculator implements OvertimeCalculatorInter
             $rule->currency,
         );
 
-        $doubleTimePay = Money::fromDecimal(
-            0,
-            $rule->currency,
-        );
-
         return new PayrollCalculationResponse(
             regularHours: $regularHours,
             overtimeHours: $overtimeHours,
-            doubleTimeHours: 0,
             regularPay: $regularPay,
             overtimePay: $overtimePay,
-            doubleTimePay: $doubleTimePay,
             grossPay: $regularPay
-                ->add($overtimePay)
-                ->add($doubleTimePay),
+                ->add($overtimePay),
             appliedRule: AppliedRule::fromModel($rule),
         );
     }

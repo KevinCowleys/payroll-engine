@@ -53,15 +53,6 @@ class PayrollRuleFactory extends Factory
         ]);
     }
 
-    public function doubleTime(): static
-    {
-        return $this->state(fn () => [
-            'rule_type' => RuleType::Daily,
-            'threshold' => 12,
-            'overtime_multiplier' => 2.0,
-        ]);
-    }
-
     public function forCountry(string $country): static
     {
         return $this->state(fn () => [
@@ -73,15 +64,6 @@ class PayrollRuleFactory extends Factory
     {
         return $this->state(fn () => [
             'region' => $region,
-        ]);
-    }
-
-    public function forCalifornia(): static
-    {
-        return $this->state(fn () => [
-            'country' => 'US',
-            'region' => 'CA',
-            'currency' => Currency::USD,
         ]);
     }
 
