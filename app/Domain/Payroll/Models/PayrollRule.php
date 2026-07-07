@@ -62,4 +62,12 @@ class PayrollRule extends Model
             'effective_to' => 'date',
         ];
     }
+
+    /**
+     * @return PayrollRuleFactory
+     */
+    protected static function newFactory(): PayrollRuleFactory
+    {
+        return PayrollRuleFactory::new();
+    }
 }
