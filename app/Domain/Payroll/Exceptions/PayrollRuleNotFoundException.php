@@ -2,10 +2,19 @@
 
 namespace App\Domain\Payroll\Exceptions;
 
+use Illuminate\Http\Response;
 use RuntimeException;
 
 final class PayrollRuleNotFoundException extends RuntimeException
 {
+    /**
+     * @return int
+     */
+    public function statusCode(): int
+    {
+        return Response::HTTP_NOT_FOUND;
+    }
+
     /**
      * @param string $country
      * @param ?string $region

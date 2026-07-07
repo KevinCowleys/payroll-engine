@@ -31,7 +31,6 @@ final readonly class PayrollCalculationService
      */
     public function calculate(PayrollCalculationRequest $request): PayrollCalculationResponse
     {
-
         $rule = $this->repository->findApplicableRule(
             $request->country,
             $request->region,
